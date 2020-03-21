@@ -35,22 +35,31 @@ word w_read(Adress adr)
     return (w);
 }
 
-void DBG(const char * file, const char * func, int line, int relay)
-{
-    static int lvl = 0;
+void load_file(const char * filename)
+{$;
+    FILE * PRGRM = fopen(filename, "rb");
+    assert(PRGRM != NULL);
 
-    if(relay == 1)
+    Adress adr = 0;
+    word n = 0;
+    byte cur = 0;
+
+    while((fscanf(PRGRM, "%hx", &adr) > 0) && (fscanf(PRGRM, "%hx", &n) > 0))
     {
-        lvl++;
-        printf("%s [%02d]%*s >>> %s\n", file, line, 4 * lvl, "", func);
+        printf("\n");
+        for (size_t i = 0; i < n; i++)
+        {
+            fscanf(PRGRM, "%hhx", &cur);
+            b_write(adr + i, cur);
+        }
+        printf("\n");
     }
-    else
-    {
-        lvl--;
-    }
-}
 
-void load_file()
-{
+    fclose(PRGRM);
+$$;}
 
-}
+void mem_dump(Adress start, word n)
+{$;
+    for(int i = 0; i < 2 * n; i += 2)
+        printf("%06o : %06ho\n", start + i, w_read(start + i));
+$$;}

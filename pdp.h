@@ -20,6 +20,7 @@ byte b_read(Adress adr);
 void w_write(Adress adr, word w);
 word w_read(Adress adr);
 
-void load_file();
+void load_file(const char * filename);
+void mem_dump(Adress start, word n);
 
 #endif //PDP11

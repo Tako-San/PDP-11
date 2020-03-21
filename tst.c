@@ -1,9 +1,6 @@
 #include "pdp.h"
 #include "tst.h"
 
-
-void head();
-
 void test1()
 {$;
     //test1
@@ -40,9 +37,36 @@ void test1()
 
 $$;}
 
-void head()
+void test2(int argc, const char ** argv)
 {$;
+    for(int i = 0; i <argc; i++)
+        printf("%s\n", argv[i]);
+$$;}
+
+void test3(const char * filename)
+{$;
+    load_file(filename);
+    mem_dump(64, 2);
+$$;}
+
+void head()
+{
     static uint16_t counter;
     counter++;
     //printf("\n-----------------------test%d------------------------\n", counter);
-$$;}
+}
+
+void DBG(const char * file, const char * func, int line, int relay)
+{
+    static int lvl = 0;
+
+    if(relay == 1)
+    {
+        lvl++;
+        printf("%s [%02d]%*s >>> %s\n", file, line, 4 * lvl, "", func);
+    }
+    else
+    {
+        lvl--;
+    }
+}
