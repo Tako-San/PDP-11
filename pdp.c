@@ -1,50 +1,53 @@
 #include "pdp.h"
 #include "tst.h"
 
-int Lvl = 0;
-
-void b_write(Adress adr, byte b)
+void b_write(address adr, byte b)
 {$;
     mem[adr] = b;
 $$;}
 
-byte b_read(Adress adr)
-{$;$$;
+byte b_read(address adr)
+{$;
+$$;
     return (mem[adr]);
 }
 
-void w_write(Adress adr, word w)
+void w_write(address adr, word w)
 {$;
-    assert(adr % 2 == 0);
+    assert(!(adr & 1));
 
-    mem[adr] = *((byte*)&w);
-    mem[adr+1] = *((byte*)&w + 1);
-    $$;
-}
+    mem[adr + 1] = (byte)(w >> 8);
+    mem[adr] = (byte)w;
 
-word w_read(Adress adr)
+$$;}
+
+word w_read(address adr)
 {$;
-    assert(adr % 2 == 0);
-
-    //return *((word*)(mem + adr));
+    assert(!(adr & 1));
 
     word w = ((word)mem[adr+1]) << 8;
     w |= (word)mem[adr];
 
-    $$;
+$$;
     return (w);
 }
 
 void load_file(const char * filename)
 {$;
-    FILE * PRGRM = fopen(filename, "rb");
-    assert(PRGRM != NULL);
+    FILE * PRGRM = NULL;
+    PRGRM = fopen(filename, "rb");
+    if (PRGRM == NULL)
+    {
+        perror(filename);
+        printf("File opening error.\n");
+        return;
+    }
 
-    Adress adr = 0;
+    address adr = 0;
     word n = 0;
     byte cur = 0;
 
-    while((fscanf(PRGRM, "%hx", &adr) > 0) && (fscanf(PRGRM, "%hx", &n) > 0))
+    while(fscanf(PRGRM, "%hx%hx", &adr, &n) == 2)
     {
         printf("\n");
         for (size_t i = 0; i < n; i++)
@@ -58,7 +61,7 @@ void load_file(const char * filename)
     fclose(PRGRM);
 $$;}
 
-void mem_dump(Adress start, word n)
+void mem_dump(address start, word n)
 {$;
     for(int i = 0; i < 2 * n; i += 2)
         printf("%06o : %06ho\n", start + i, w_read(start + i));

@@ -1,8 +1,8 @@
 #!/bin/bash
 
-clear
 #rm ./a.out
 
-gcc -Wall -Wextra -g main.c pdp.c tst.c
-
-valgrind ./a.out $1
+if gcc -Wall -Wextra -g main.c pdp.c tst.c
+then
+    valgrind ./a.out "$1"
+fi

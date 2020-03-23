@@ -6,9 +6,9 @@ void DBG(const char * file, const char * func, int line, int relay);
 #define $ DBG(__FILE__, __PRETTY_FUNCTION__, __LINE__, 1)
 #define $$ DBG(__FILE__, __PRETTY_FUNCTION__, __LINE__, 0)
 
-void head();
-void test1();
-void test2();
+void head(const char * msg);
+void test_rw_bw();
+void test_argv();
 void test3();
 
 

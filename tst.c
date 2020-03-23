@@ -1,43 +1,43 @@
 #include "pdp.h"
 #include "tst.h"
 
-void test1()
+void test_rw_bw()
 {$;
     //test1
-    head();
+    head("byte w/r");
     byte b1 = 0x0b;
     b_write(2, b1);
-    //printf("\n%02hhx = %02hhx\n", b_read(2), b1);
+    printf("\n%02hhx = %02hhx\n", b_read(2), b1);
 
     //test2
-    head();
+    head("word w/r");
     word w1 = 0xACAB;
     w_write(4, w1);
-    //printf("\n%02hx = %02hx\n", w_read(4), w1);
+    printf("\n%02hx = %02hx\n", w_read(4), w1);
 
     //test3
-    head();
+    head("byte write word read");
     byte b2 = 0xcd;
     byte b3 = 0xab;
 
     b_write(6, b2);
     b_write(7, b3);
-    //printf("\n%04hx = %02hhx%02hhx\n", w_read(6), b3, b2);
+    printf("\n%04hx = %02hhx%02hhx\n", w_read(6), b3, b2);
 
     //test3
-    head();
+    head("word w/r");
     word w2 = 0x0a0b;
     w_write(8, w2);
-    //printf("\n%04hx = %04hx\n", w_read(8), w2);
+    printf("\n%04hx = %04hx\n", w_read(8), w2);
 
     //test4
-    head();
+    head("little/big endian");
     uint16_t x = 1; /* 0x0001 */
-    //printf("%s\n", *((uint8_t *) &x) == 0 ? "big-endian" : "little-endian");
+    printf("%s\n", *((uint8_t *) &x) == 0 ? "big-endian" : "little-endian");
 
 $$;}
 
-void test2(int argc, const char ** argv)
+void test_argv(int argc, const char ** argv)
 {$;
     for(int i = 0; i <argc; i++)
         printf("%s\n", argv[i]);
@@ -49,11 +49,11 @@ void test3(const char * filename)
     mem_dump(64, 2);
 $$;}
 
-void head()
+void head(const char * msg)
 {
     static uint16_t counter;
     counter++;
-    //printf("\n-----------------------test%d------------------------\n", counter);
+    //printf("\n-----------------------%s test%d------------------------\n", msg, counter);
 }
 
 void DBG(const char * file, const char * func, int line, int relay)
