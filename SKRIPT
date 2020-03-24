@@ -1,0 +1,8 @@
+#!/bin/bash
+
+#rm ./a.out
+
+if gcc -Wall -Wextra -g main.c pdp.c run.c cmd.c  tests/tst.c
+then
+    valgrind -s  ./a.out "$1"
+fi
