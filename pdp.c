@@ -1,35 +1,35 @@
-#include "pdp.h"
-#include "tst.h"
+#include "headers/pdp.h"
+#include "headers/tst.h"
 
-void b_write(address adr, byte b)
+void b_write(Adr adr, Byte b)
 {$;
     mem[adr] = b;
 $$;}
 
-byte b_read(address adr)
+Byte b_read(Adr adr)
 {$;
 $$;
     return (mem[adr]);
 }
 
-void w_write(address adr, word w)
+void w_write(Adr adr, Word w)
 {$;
     assert(!(adr & 1));
 
-    mem[adr + 1] = (byte)(w >> 8);
-    mem[adr] = (byte)w;
+    mem[adr + 1] = (Byte)(w >> 8);
+    mem[adr] = (Byte)w;
 
 $$;}
 
-word w_read(address adr)
+Word w_read(Adr adr)
 {$;
     assert(!(adr & 1));
 
-    word w = ((word)mem[adr+1]) << 8;
-    w |= (word)mem[adr];
+    Word w = ((Word)mem[adr + 1]) << 8;
+    w |= (Word)mem[adr];
 
 $$;
-    return (w);
+    return w;
 }
 
 void load_file(const char * filename)
@@ -43,9 +43,9 @@ void load_file(const char * filename)
         return;
     }
 
-    address adr = 0;
-    word n = 0;
-    byte cur = 0;
+    Adr adr = 01000;
+    Word n = 0;
+    Byte cur = 0;
 
     while(fscanf(PRGRM, "%hx%hx", &adr, &n) == 2)
     {
@@ -61,8 +61,14 @@ void load_file(const char * filename)
     fclose(PRGRM);
 $$;}
 
-void mem_dump(address start, word n)
+void mem_dump(Adr start, Word n)
 {$;
     for(int i = 0; i < 2 * n; i += 2)
         printf("%06o : %06ho\n", start + i, w_read(start + i));
 $$;}
+
+void trace(const char * format, ...)
+{
+    //printf(format);
+    printf("My name is trace\n");
+}
