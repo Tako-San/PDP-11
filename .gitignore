@@ -1,3 +1,6 @@
 *.out
 *.o
 *.txt
+*.l
+/PDP-X
+/cmake-build-debug
