@@ -7,8 +7,8 @@ void b_write(Adr adr, Byte b)
 $$;}
 
 Byte b_read(Adr adr)
-{$;
-$$;
+{//$;
+//$$;
     return (mem[adr]);
 }
 
@@ -22,13 +22,13 @@ void w_write(Adr adr, Word w)
 $$;}
 
 Word w_read(Adr adr)
-{$;
+{//$;
     assert(!(adr & 1));
 
     Word w = ((Word)mem[adr + 1]) << 8;
     w |= (Word)mem[adr];
 
-$$;
+//$$;
     return w;
 }
 
@@ -64,7 +64,10 @@ $$;}
 void mem_dump(Adr start, Word n)
 {$;
     for(int i = 0; i < 2 * n; i += 2)
-        printf("%06o : %06ho\n", start + i, w_read(start + i));
+    {
+        Word w = w_read(start + i);
+        INDENT; printf("%06o : %06ho\n", start + i, w);
+    }
 $$;}
 
 void trace(const char * format, ...)

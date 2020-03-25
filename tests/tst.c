@@ -53,9 +53,12 @@ $$;}
 void test_run(const char * filename)
 {$;
    load_file(filename);
-   //mem_dump(2, 4);
+   mem_dump(01000, 6);
    run();
 $$;}
+
+
+
 
 void head(const char * msg)
 {
@@ -75,7 +78,7 @@ void DBG(const char * file, const char * func, int line, int relay)
     }
     else if(relay == 2)
     {
-        printf("%*s", 4*lvl + 21, "");
+        printf("%*s", 4*lvl + 22, "");
     }
     else
     {
