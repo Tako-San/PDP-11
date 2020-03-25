@@ -11,7 +11,7 @@ Cmd cmd[] =
                 {0xFFFF, 0000000, NO_PARAMS, "halt", do_halt},
                 {0xF000, 0010000, HAS_SS,"mov", do_mov},
                 {0xF000, 0060000, HAS_SS, "add", do_add},
-                {0xFFFF, 0000001, NO_PARAMS, "unknown cmd", do_unknown},
+                {0x0000, 0000000, NO_PARAMS, "unknown cmd", do_unknown},
         };
 
 extern Byte mem[MEMSIZE];

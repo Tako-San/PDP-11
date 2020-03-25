@@ -1,5 +1,4 @@
 #include "headers/cmd.h"
-#include "headers/tst.h"
 #include "headers/dbg.h"
 #include <stdlib.h>
 
@@ -57,7 +56,7 @@ void do_unknown()
     INDENT;
     trace("[%s]\n", __PRETTY_FUNCTION__);
 $$;
-    //exit(0);
+    exit(1);
 }
 
 /*void do_add()
