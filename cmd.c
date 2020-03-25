@@ -1,46 +1,62 @@
 #include "headers/cmd.h"
 #include "headers/tst.h"
+#include "headers/dbg.h"
 #include <stdlib.h>
+
+extern int tr;
 
 extern Arg ss;
 extern Arg dd;
+
+extern Byte mem[MEMSIZE];
+
 extern Word reg[8];
-#define pc reg[7];
+#define pc reg[7]
+#define pc_num 7
 
 void do_add()
-{//$;
+{$;
     INDENT;
-    printf("[%s]\n", __PRETTY_FUNCTION__);
+    trace("[%s]\n", __PRETTY_FUNCTION__);
     print_reg();
-    reg[dd.adr] = dd.val + ss.val;
+
+    w_write(dd.adr, dd.val + ss.val);
+
+    INDENT;
+    trace("%d + %d", dd.val, ss.val);
     print_reg();
-//$$;
+$$;
 }
 
 void do_halt()
-{//$;
+{$;
     INDENT;
-    printf("[%s]\n", __PRETTY_FUNCTION__);
+    tr = 1;
+    trace("[%s]\n", __PRETTY_FUNCTION__);
     print_reg();
-//$$;
+$$;
     exit(0);
 }
 
 void do_mov()
-{//$;
+{$;
     INDENT;
-    printf("[%s]\n", __PRETTY_FUNCTION__);
+    trace("[%s]\n", __PRETTY_FUNCTION__);
     print_reg();
-    reg[dd.adr] = ss.val;
+
+    w_write(dd.adr, ss.val);
+
+    INDENT;
+    trace("reg[%d] = %d", dd.adr, ss.val);
     print_reg();
-//$$;
+$$;
 }
 
 void do_unknown()
-{//$;
+{$;
     INDENT;
-    printf("[%s]\n", __PRETTY_FUNCTION__);
-//$$;
+    trace("[%s]\n", __PRETTY_FUNCTION__);
+$$;
     //exit(0);
 }
 
