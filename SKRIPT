@@ -2,7 +2,7 @@
 
 #rm ./a.out
 
-if gcc -Wall -Wextra -g main.c pdp.c run.c cmd.c  tests/tst.c
+if gcc -Wall -Wextra -g main.c pdp.c run.c cmd.c dbg.c tst.c
 then
     valgrind -s  ./a.out "$1"
 fi
