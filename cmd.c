@@ -31,7 +31,7 @@ void do_mov()
     INDENT;
     printf("[%s]\n", __PRETTY_FUNCTION__);
     print_reg();
-    reg[dd.adr] = w_read(ss.adr);
+    reg[dd.adr] = ss.val;
     print_reg();
 //$$;
 }
