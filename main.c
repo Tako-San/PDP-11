@@ -1,5 +1,7 @@
-#include "headers/pdp.h"
 #include "headers/tst.h"
+#include "headers/dbg.h"
+
+int tr = 1;
 
 int main(int argc, char * argv[])
 {$;
