@@ -1,7 +1,7 @@
-#include "../headers/pdp.h"
-#include "../headers/tst.h"
-#include "../headers/cmd.h"
-#include "../headers/dbg.h"
+#include "headers/pdp.h"
+#include "headers/tst.h"
+#include "headers/cmd.h"
+#include "headers/dbg.h"
 
 void test_rw_bw()
 {$;
@@ -62,5 +62,5 @@ void head(const char * msg)
 {
     static uint16_t counter;
     counter++;
-    //trace("\n-----------------------%s test%d------------------------\n", msg, counter);
+    trace("\n------------------------%s------------------------\n", msg);
 }
