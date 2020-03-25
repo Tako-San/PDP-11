@@ -11,7 +11,7 @@ typedef struct Arg
 
 void run();
 
-Arg get_modereg(Word w);
+Arg get_mr(Word w);
 Arg get_ss(Word w);
 Arg get_dd(Word w);
 
