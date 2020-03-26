@@ -15,9 +15,6 @@ typedef Word Adr;
 
 #define MEMSIZE (64*1024)
 
-//Byte mem[MEMSIZE] = {};
-
-
 void b_write(Adr adr, Byte b);
 Byte b_read(Adr adr);
 

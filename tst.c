@@ -55,8 +55,9 @@ $$;}
 void test_run(const char * filename)
 {$;
    load_file(filename);
-   mem_dump(01000, 6);
+   //mem_dump(01000, 6);
    run();
+   //mem_dump(0, 65*4);
 $$;}
 
 void head(const char * msg)
