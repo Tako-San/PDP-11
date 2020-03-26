@@ -51,8 +51,9 @@ void load_file(const char * filename)
     if (PRGRM == NULL)
     {
         perror(filename);
-        printf("File opening error.\n");
-        return;
+        for(int i = 0; i < 10; i++)
+            printf("File opening error.\n");
+        exit(1);
     }
 
     Adr adr = 01000;
