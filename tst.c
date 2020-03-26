@@ -42,7 +42,8 @@ $$;}
 void test_argv(int argc, const char ** argv)
 {$;
     for(int i = 0; i <argc; i++)
-        trace("%s\n", argv[i]);
+        printf("%s\n", argv[i]);
+    printf("\n");
 $$;}
 
 void test_file(const char * filename)
