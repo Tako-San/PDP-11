@@ -1,0 +1,39 @@
+.=200
+CHIS: .WORD 5
+.=1000
+MAIN:
+	MOV #MAIN, SP
+	MOV @#200, -(SP)
+	mov #1, r0
+	mov #2, r1
+	mov #3, r2
+	mov #4, r3
+	mov #5, r4
+	mov #6, r5
+	JSR PC, FUC
+	HALT
+	
+	
+FUC:	
+	TST 2(SP)
+	BEQ _Z
+	MOV R1, -(SP)
+	MOV R3, -(SP)
+	MOV 6(SP), R1
+	MOV R1, R3
+	DEC R3
+	MOV R2, -(SP)
+	MOV R3, -(SP)
+	JSR PC, FUC
+	MOV R0, R2
+	MUL R1, R0
+	MOV R1, R0
+	MOV (SP)+, R3
+	MOV (SP)+, R2
+	MOV (SP)+, R3
+	MOV (SP)+, R1
+	BR _E
+_Z:
+	MOV #1, R0
+_E:
+	RTS PC
