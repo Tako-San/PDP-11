@@ -17,7 +17,7 @@ void do_add()
 {$;
     INDENT;
     trace("[%s]\n", __PRETTY_FUNCTION__);
-    print_reg();
+    //print_reg();
 
     w_write(dd.adr, dd.val + ss.val);
 
@@ -41,7 +41,7 @@ void do_mov()
 {$;
     INDENT;
     trace("[%s]\n", __PRETTY_FUNCTION__);
-    print_reg();
+    //print_reg();
 
     w_write(dd.adr, ss.val);
 

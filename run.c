@@ -37,6 +37,8 @@ void run()
 
         pc += 2;
 
+        print_reg();
+
         for(size_t i = 0; cmd[i].opcode != 0x0001; i++)
         {
             if((w & cmd[i].mask) == cmd[i].opcode)
