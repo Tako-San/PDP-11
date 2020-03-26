@@ -4,5 +4,5 @@
 
 if gcc -Wall -Wextra -g main.c pdp.c run.c cmd.c dbg.c tst.c
 then
-    valgrind -s  ./a.out tests/"$1"
+    valgrind -s  ./a.out $1 $2
 fi
