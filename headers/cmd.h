@@ -17,16 +17,23 @@ Arg get_dd(Word w);
 
 void print_reg();
 
-void do_halt();
-void do_mov();
-void do_add();
+void do_HALT();
+void do_CLR();
+void do_MOV();
+void do_ADD();
+void do_SUB();
+void do_SOB();
 void do_unknown();
 
 enum
 {
     NO_PARAMS = 0,
     HAS_DD    = 1,
-    HAS_SS    = 2
+    HAS_SS    = 2,
+    HAS_N     = 4,
+    HAS_NN    = 8,
+    HAS_R     = 16,
+    HAS_XX    = 32,
 };
 
 typedef struct Cmd
