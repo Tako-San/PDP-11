@@ -8,6 +8,8 @@ Word reg[8] = {};
 void b_write(Adr adr, Byte b)
 {$;
     mem[adr] = b;
+    //INDENT;
+    //trace("%04hho : %04hho\n", adr, b);
 $$;}
 
 Byte b_read(Adr adr)
@@ -25,11 +27,13 @@ void w_write(Adr adr, Word w)
         assert(!(adr & 1));
         mem[adr + 1] = (Byte)(w >> 8);
         mem[adr] = (Byte)w;
+        //INDENT;
+        //trace("%ho : %hd\n", adr, w);
     }
 $$;}
 
 Word w_read(Adr adr)
-{$;
+{//$;
     Word w = 0;
 
     if(adr < 8)
@@ -40,7 +44,7 @@ Word w_read(Adr adr)
         w = ((Word)mem[adr + 1]) << 8;
         w |= (Word)mem[adr];
     }
-$$;
+//$$;
     return w;
 }
 
@@ -79,7 +83,7 @@ void mem_dump(Adr start, Word n)
     for(int i = 0; i < 2 * n; i += 2)
     {
         Word w = w_read(start + i);
-        INDENT;
-        trace("%06o : %06ho\n", start + i, w);
+        INDENT(0);
+        trace(0,"%06o : %06ho\n", start + i, w);
     }
 $$;}

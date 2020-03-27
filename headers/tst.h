@@ -4,7 +4,7 @@
 #include <stdio.h>
 
 
-void head(const char * msg);
+void head(int pr, const char * msg);
 void test_rw_bw();
 void test_argv();
 void test_file();

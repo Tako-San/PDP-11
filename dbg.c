@@ -4,14 +4,14 @@
 
 extern int tr;
 
-int DBG(const char * file, const char * func, int line, int relay)
+int DBG(const char * file, const char * func, int line, int relay, int pr)
 {
     static int lvl = 0;
 
     if(relay == START)
     {
         lvl++;
-        trace("%6s [%02d]%*s >>> %s\n", file, line, 4 * lvl, "", func);
+        trace(pr, "%6s [%02d]%*s >>> %s\n", file, line, 4 * lvl, "", func);
     }
     else if(relay == END)
     {
@@ -19,7 +19,7 @@ int DBG(const char * file, const char * func, int line, int relay)
     }
     else if(relay == IND)
     {
-        trace("%*s", 4*lvl + 16, "");
+        trace(pr,"%*s", 4*lvl + 16, "");
     }
     else if(relay == GETLVL)
     {
@@ -28,9 +28,9 @@ int DBG(const char * file, const char * func, int line, int relay)
     return lvl;
 }
 
-void trace(const char *  format, ...)
+void trace(int pr, const char *  format, ...)
 {
-    if(tr == 0)
+    if(pr > tr)
         return;
 
     va_list ap;
@@ -39,6 +39,5 @@ void trace(const char *  format, ...)
     vprintf(format, ap);
 
     va_end(ap);
-
 }
 

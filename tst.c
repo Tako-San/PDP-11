@@ -6,36 +6,36 @@
 void test_rw_bw()
 {$;
     //test1
-    head("Byte w/r");
+    head(0, "Byte w/r");
     Byte b1 = 0x0b;
     b_write(2, b1);
-    trace("\n%02hhx = %02hhx\n", b_read(2), b1);
+    trace(0, "\n%02hhx = %02hhx\n", b_read(2), b1);
 
     //test2
-    head("Word w/r");
+    head(0, "Word w/r");
     Word w1 = 0xACAB;
     w_write(4, w1);
-    trace("\n%02hx = %02hx\n", w_read(4), w1);
+    trace(0, "\n%02hx = %02hx\n", w_read(4), w1);
 
     //test3
-    head("Byte write Word read");
+    head(0, "Byte write Word read");
     Byte b2 = 0xcd;
     Byte b3 = 0xab;
 
     b_write(6, b2);
     b_write(7, b3);
-    trace("\n%04hx = %02hhx%02hhx\n", w_read(6), b3, b2);
+    trace(0, "\n%04hx = %02hhx%02hhx\n", w_read(6), b3, b2);
 
     //test3
-    head("Word w/r");
+    head(0, "Word w/r");
     Word w2 = 0x0a0b;
     w_write(8, w2);
-    trace("\n%04hx = %04hx\n", w_read(8), w2);
+    trace(0, "\n%04hx = %04hx\n", w_read(8), w2);
 
     //test4
-    head("little/big endian");
+    head(0, "little/big endian");
     uint16_t x = 1; /* 0x0001 */
-    trace("%s\n", *((uint8_t *) &x) == 0 ? "big-endian" : "little-endian");
+    trace(0, "%s\n", *((uint8_t *) &x) == 0 ? "big-endian" : "little-endian");
 
 $$;}
 
@@ -60,9 +60,9 @@ void test_run(const char * filename)
    //mem_dump(0, 65*4);
 $$;}
 
-void head(const char * msg)
+void head(int pr, const char * msg)
 {
     static uint16_t counter;
     counter++;
-    trace("\n------------------------%s------------------------\n", msg);
+    trace(pr, "\n------------------------%s------------------------\n", msg);
 }

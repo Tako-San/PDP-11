@@ -9,13 +9,16 @@ enum
     GETLVL = 3,
 };
 
-int DBG(const char * file, const char * func, int line, int relay);
+#define t 1
+#define T 2
 
-#define $ DBG(__FILE__, __PRETTY_FUNCTION__, __LINE__, START)
-#define $$ DBG(__FILE__, __PRETTY_FUNCTION__, __LINE__, END)
-#define INDENT DBG(__FILE__, __PRETTY_FUNCTION__, __LINE__, IND)
+int DBG(const char * file, const char * func, int line, int relay, int pr);
 
-void trace(const char *  format, ...);
+#define $ DBG(__FILE__, __PRETTY_FUNCTION__, __LINE__, START, T)
+#define $$ DBG(__FILE__, __PRETTY_FUNCTION__, __LINE__, END, T)
+#define INDENT(x) DBG(__FILE__, __PRETTY_FUNCTION__, __LINE__, IND, x)
+
+void trace(int pr, const char *  format, ...);
 
 
 #endif //PDP_11_DBG_H

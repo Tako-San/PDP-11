@@ -21,12 +21,24 @@ int main(int argc, char * argv[])
     else if(argc == 2)
     {
         load_file(argv[1]);
+        mem_dump(0100, 5);
+        mem_dump(01000, 9);
         run();
     }
-    else if(strcmp(argv[1], "-t") == 0 || strcmp(argv[1], "-T") == 0 )
+    else if(strcmp(argv[1], "-t") == 0)
     {
-        tr = 1;
+        tr = t;
         load_file(argv[2]);
+        mem_dump(0100, 5);
+        mem_dump(01000, 9);
+        run();
+    }
+    else if(strcmp(argv[1], "-T") == 0)
+    {
+        tr = T;
+        load_file(argv[2]);
+        mem_dump(0100, 5);
+        mem_dump(01000, 9);
         run();
     }
 /*    else
