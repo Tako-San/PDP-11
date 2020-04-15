@@ -41,6 +41,10 @@ int main(int argc, char * argv[])
         mem_dump(01000, 9);
         run();
     }
+    else
+    {
+        printf("Unknown key");
+    }
 /*    else
     {
         tr = 1;

@@ -39,7 +39,7 @@ void test_rw_bw()
 
 $$;}
 
-void test_argv(int argc, const char ** argv)
+void test_argv(int argc, char ** argv)
 {$;
     for(int i = 0; i <argc; i++)
         printf("%s\n", argv[i]);

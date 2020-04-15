@@ -18,8 +18,13 @@ Arg dd = {};
 Word nn = 0;
 Word n = 0;
 Word r = 0;
+Byte BorW = 0;
 
-
+enum
+{
+    W = 0,
+    B = 1
+};
 
 extern int tr;
 
@@ -42,6 +47,8 @@ void run()
         {
             if((w & cmd[i].mask) == cmd[i].opcode)
             {
+                if(cmd[i].params & HAS_B)
+                    BorW = w >> 15;
                 if(cmd[i].params & HAS_SS)
                     ss = get_ss(w);
                 if(cmd[i].params & HAS_DD)
@@ -55,6 +62,7 @@ void run()
                 if(cmd[i].params & HAS_XX)
                     trace(0, "\ntodo: get_xx(w)\n");
                 cmd[i].do_func();
+                print_reg();
                 break;
             }
             /*else if(i == 3)
@@ -100,15 +108,28 @@ Arg get_mr(Word w)
 
                 break;
         case 1: res.adr = reg[r];
-                res.val = w_read(res.adr);
+
+                if(BorW == W)
+                    res.val = w_read(res.adr);
+                else if(BorW == B)
+                    res.val = b_read(res.adr);
 
                 INDENT(T);
                 trace(T, "(R%d)\n", r);
 
                 break;
         case 2: res.adr = reg[r];
-                res.val = w_read(res.adr);
-                reg[r] += 2; // +1
+
+                if(BorW == W)
+                {
+                    res.val = w_read(res.adr);
+                    reg[r] += 2;
+                }
+                else if(BorW == B)
+                {
+                    res.val = b_read(res.adr);
+                    reg[r] += 1;
+                }
 
                 if(r == 7)
                 {
@@ -123,8 +144,18 @@ Arg get_mr(Word w)
 
                 break;
         case 3: res.adr = w_read(reg[r]);
-                res.val = w_read(res.adr);
-                reg[r] += 2;
+
+                if(BorW == W)
+                {
+                    res.val = w_read(res.adr);
+                    reg[r] += 2;
+                }
+                else if(BorW == B)
+                {
+                    res.val = b_read(res.adr);
+                    reg[r] += 1;
+                }
+
                 if(r == 7)
                 {
                     INDENT(T);
@@ -137,9 +168,19 @@ Arg get_mr(Word w)
                 }
 
                 break;
-        case 4: reg[r] -= 2;
-                res.adr = reg[r];
-                res.val = w_read(res.adr);
+        case 4:
+                if(BorW == W)
+                {
+                    reg[r] -= 2;
+                    res.adr = reg[r];
+                    res.val = w_read(res.adr);
+                }
+                else if(BorW == B)
+                {
+                    reg[r] -= 1;
+                    res.adr = reg[r];
+                    res.val = w_read(res.adr);
+                }
 
                 INDENT(T);
                 trace(T, "-(R%d)\n", r);

@@ -34,6 +34,7 @@ enum
     HAS_NN    = 8,
     HAS_R     = 16,
     HAS_XX    = 32,
+    HAS_B     = 64
 };
 
 typedef struct Cmd

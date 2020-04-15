@@ -6,20 +6,42 @@ Byte mem[MEMSIZE] = {};
 Word reg[8] = {};
 
 void b_write(Adr adr, Byte b)
-{$;
-    mem[adr] = b;
-    //INDENT;
-    //trace("%04hho : %04hho\n", adr, b);
-$$;}
+{//$;
+    //assert(adr >= 0);
+
+    if(adr < 8)
+    {
+        if(b & 0x80)
+            reg[adr] = 0xFF00 | (Word)b;
+        else
+            reg[adr] = 0x0000 | (Word)b;
+
+        //reg[adr] += b;
+    }
+    else
+        mem[adr] = b;
+
+//$$;
+}
 
 Byte b_read(Adr adr)
-{$;
-$$;
-    return (mem[adr]);
+{//$;
+    //assert(adr >= 0);
+
+    Byte b = 0;
+
+    if(adr < 8)
+        b = (Byte)reg[adr];
+    else
+        b = mem[adr];
+//$$;
+    return b;
 }
 
 void w_write(Adr adr, Word w)
-{$;
+{//$;
+    //assert(adr >= 0);
+
     if(adr < 8)
         reg[adr] = w;
     else
@@ -27,13 +49,14 @@ void w_write(Adr adr, Word w)
         assert(!(adr & 1));
         mem[adr + 1] = (Byte)(w >> 8);
         mem[adr] = (Byte)w;
-        //INDENT;
-        //trace("%ho : %hd\n", adr, w);
     }
-$$;}
+//$$;
+}
 
 Word w_read(Adr adr)
 {//$;
+    //assert(adr >= 0);
+
     Word w = 0;
 
     if(adr < 8)
@@ -49,7 +72,7 @@ Word w_read(Adr adr)
 }
 
 void load_file(const char * filename)
-{$;
+{//$;
     FILE * PRGRM = NULL;
     PRGRM = fopen(filename, "rb");
     if (PRGRM == NULL)
@@ -76,7 +99,8 @@ void load_file(const char * filename)
     }
 
     fclose(PRGRM);
-$$;}
+//$$;
+}
 
 void mem_dump(Adr start, Word n)
 {$;
