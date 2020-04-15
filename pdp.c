@@ -12,11 +12,11 @@ void b_write(Adr adr, Byte b)
     if(adr < 8)
     {
         if(b & 0x80)
-            reg[adr] = 0xFF00 | (Word)b;
+            reg[adr] = 0xFF00;
         else
-            reg[adr] = 0x0000 | (Word)b;
+            reg[adr] = 0x0000;
 
-        //reg[adr] += b;
+        reg[adr] |= (Word)b;
     }
     else
         mem[adr] = b;
