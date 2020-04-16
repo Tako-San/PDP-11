@@ -29,12 +29,12 @@ enum
 {
     NO_PARAMS = 0,
     HAS_DD    = 1,
-    HAS_SS    = 2,
-    HAS_N     = 4,
-    HAS_NN    = 8,
-    HAS_R     = 16,
-    HAS_XX    = 32,
-    HAS_B     = 64
+    HAS_SS    = 1 << 1,
+    HAS_N     = 1 << 2,
+    HAS_NN    = 1 << 3,
+    HAS_R     = 1 << 4,
+    HAS_XX    = 1 << 5,
+    HAS_B     = 1 << 6
 };
 
 typedef struct Cmd

@@ -13,6 +13,7 @@ extern Byte mem[MEMSIZE];
 extern Word reg[8];
 #define pc reg[7]
 
+// Global variables which used in do_funcs
 Arg ss = {};
 Arg dd = {};
 Word nn = 0;
@@ -128,7 +129,7 @@ Arg get_mr(Word w)
                 else if(BorW == B)
                 {
                     res.val = b_read(res.adr);
-                    reg[r] += 1;
+                    reg[r] += (r < 6) ? 1 : 2;
                 }
 
                 if(r == 7)
@@ -153,7 +154,8 @@ Arg get_mr(Word w)
                 else if(BorW == B)
                 {
                     res.val = b_read(res.adr);
-                    reg[r] += 1;
+                    reg[r] += 2;
+                    //reg[r] += (res.adr < 6)? 1 : 2;
                 }
 
                 if(r == 7)
@@ -177,7 +179,7 @@ Arg get_mr(Word w)
                 }
                 else if(BorW == B)
                 {
-                    reg[r] -= 1;
+                    reg[r] -= (r < 6) ? 1 : 2;
                     res.adr = reg[r];
                     res.val = w_read(res.adr);
                 }
@@ -202,15 +204,16 @@ void print_reg()
 {
     head(0, __PRETTY_FUNCTION__);
     trace(0, "\n     ");
-    //INDENT;
-    for(int i = 0; i <= 4; i += 2)
-        trace(0, "r%d = %06o ", i, reg[i]);
-    trace(0, "sp = %06o\n", reg[6]);
 
-    //INDENT;
-    trace(0, "     ");
-    for(int i = 1; i <= 5; i += 2)
+    for(int i = 0; i < 4; i += 1)
         trace(0, "r%d = %06o ", i, reg[i]);
+
+    trace(0, "\n     ");
+
+    for(int i = 4; i <= 5; i += 1)
+        trace(0, "r%d = %06o ", i, reg[i]);
+    
+    trace(0, "sp = %06o ", reg[6]);
     trace(0, "pc = %06o\n", reg[7]);
 
     head(0, "---------");

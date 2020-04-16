@@ -4,12 +4,19 @@
 
 extern int tr;
 
+// Global variables which used in do_funcs
 extern Arg ss;
 extern Arg dd;
 extern Word nn;
 extern Word n;
 extern Word r;
 extern Byte BorW;
+
+//flags
+uint8_t flag_N = 0;
+uint8_t flag_Z = 0;
+uint8_t flag_V = 0;
+uint8_t flag_C = 0;
 
 enum
 {
@@ -39,7 +46,9 @@ void do_ADD()
     INDENT(T);
     trace(T, "[%s]\n", __PRETTY_FUNCTION__);
 
-    w_write(dd.adr, dd.val + ss.val);
+    Word res = dd.val + ss.val;
+    w_write(dd.adr, res);
+
 
     INDENT(T);
     trace(T, "%d + %d\n", dd.val, ss.val);
@@ -135,8 +144,7 @@ $$;
     exit(1);
 }
 
-/*void do_ADD()
+void set_NZ(Word num)
 {
-    printf("%s\n", __PRETTY_FUNCTION__);
-}*/
-
+    flag_Z = (num != 0);
+}
