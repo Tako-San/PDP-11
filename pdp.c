@@ -90,7 +90,7 @@ void load_file(const char * filename)
     while(fscanf(PRGRM, "%hx%hx", &adr, &n) == 2)
     {
         //printf("\n");
-        for (size_t i = 0; i < n; i++)
+        for (int i = 0; i < n; i++)
         {
             fscanf(PRGRM, "%hhx", &cur);
             b_write(adr + i, cur);

@@ -16,6 +16,7 @@ extern Word reg[8];
 // Global variables which used in do_funcs
 Arg ss = {};
 Arg dd = {};
+Word xx = 0;
 Word nn = 0;
 Word n = 0;
 Word r = 0;
@@ -61,7 +62,7 @@ void run()
                 if(cmd[i].params & HAS_R)
                     r = (w & 0700) >> 6; // temporary solution
                 if(cmd[i].params & HAS_XX)
-                    trace(0, "\ntodo: get_xx(w)\n");
+                    xx = w & 077;
                 cmd[i].do_func();
                 print_reg();
                 break;
@@ -212,7 +213,7 @@ void print_reg()
 
     for(int i = 4; i <= 5; i += 1)
         trace(0, "r%d = %06o ", i, reg[i]);
-    
+
     trace(0, "sp = %06o ", reg[6]);
     trace(0, "pc = %06o\n", reg[7]);
 

@@ -5,7 +5,7 @@
 
 typedef struct Arg
 {
-    Word val;
+    uint32_t val;
     Word adr;
 }Arg;
 
@@ -17,12 +17,41 @@ Arg get_dd(Word w);
 
 void print_reg();
 
+void set_NZ(Word num);
+
 void do_HALT();
 void do_CLR();
 void do_MOV();
 void do_ADD();
 void do_SUB();
 void do_SOB();
+
+void do_TST();
+void do_CMP();
+
+void do_CCC();
+void do_CLC();
+void do_CLN();
+void do_CLV();
+void do_CLZ();
+
+void do_SCC();
+void do_SLC();
+void do_SLN();
+void do_SLV();
+void do_SLZ();
+
+void do_NOP();
+
+void do_BR();
+void do_BEQ();
+void do_BNE();
+void do_BMI();
+void do_BPL();
+void do_BLT();
+void do_BGE();
+void do_BLE();
+
 void do_unknown();
 
 enum
