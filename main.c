@@ -41,6 +41,14 @@ int main(int argc, char * argv[])
         mem_dump(01000, 9);
         run();
     }
+    else if(strcmp(argv[1], "-Z") == 0)
+    {
+        tr = Z;
+        load_file(argv[2]);
+        mem_dump(0100, 5);
+        mem_dump(01000, 9);
+        run();
+    }
     else
     {
         printf("Unknown key");

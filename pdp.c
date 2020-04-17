@@ -107,7 +107,11 @@ void mem_dump(Adr start, Word n)
     for(int i = 0; i < 2 * n; i += 2)
     {
         Word w = w_read(start + i);
-        INDENT(0);
-        trace(0,"%06o : %06ho\n", start + i, w);
+        INDENT(Z);
+        trace(T,"%06o : %06ho\n", start + i, w);
     }
+
+    INDENT(Z);
+    trace(T,"\n");
+
 $$;}

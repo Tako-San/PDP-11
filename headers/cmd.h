@@ -16,6 +16,7 @@ Arg get_ss(Word w);
 Arg get_dd(Word w);
 
 void print_reg();
+void print_halt();
 
 void set_NZ(Word num);
 

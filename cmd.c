@@ -73,8 +73,8 @@ Cmd cmd[] =
 
 void do_ADD()
 {$;
-    INDENT(T);
-    trace(T, "[%s]\n", __PRETTY_FUNCTION__);
+    INDENT(Z);
+    trace(Z, "[%s]\n", __PRETTY_FUNCTION__);
 
     uint32_t res = dd.val + ss.val;
     w_write(dd.adr, res);
@@ -82,15 +82,15 @@ void do_ADD()
     set_NZ(res);
     flag_C = (res >> (8 * sizeof(Word))) & 1;
 
-    INDENT(T);
-    trace(T, "%d + %d\n", dd.val, ss.val);
+    INDENT(Z);
+    trace(t, "%d + %d\n", dd.val, ss.val);
 $$;
 }
 
 void do_SUB()
 {$;
-    INDENT(T);
-    trace(T, "[%s]\n", __PRETTY_FUNCTION__);
+    INDENT(Z);
+    trace(Z, "[%s]\n", __PRETTY_FUNCTION__);
     //print_reg();
 
     uint32_t res = dd.val - ss.val;
@@ -99,24 +99,24 @@ void do_SUB()
     set_NZ(res);
     flag_C = (res >> (8 * sizeof(Word))) & 1;
 
-    INDENT(T);
+    INDENT(Z);
     trace(T, "%d - %d\n", dd.val, ss.val);
 $$;}
 
 void do_HALT()
 {$;
-    INDENT(T);
+    INDENT(Z);
     tr = 1;
-    trace(T, "[%s]\n", __PRETTY_FUNCTION__);
-    print_reg();
+    trace(Z, "[%s]\n", __PRETTY_FUNCTION__);
+    print_halt();
 $$;
     exit(0);
 }
 
 void do_MOV()
 {$;
-    INDENT(t);
-    trace(t, "[%s]\n", __PRETTY_FUNCTION__);
+    INDENT(Z);
+    trace(Z, "[%s]\n", __PRETTY_FUNCTION__);
 
     if(BorW == W)
         w_write(dd.adr, ss.val);
@@ -131,8 +131,15 @@ void do_MOV()
     set_NZ(ss.val);
     flag_V = 0;
 
-    INDENT(t);
-    trace(t, "BorW = %d adr: %d = %o\n", BorW, dd.adr, ss.val);
+    INDENT(Z);
+    if(dd.adr < 6)
+        trace(t, "r%d = %o\n", dd.adr, ss.val);
+    else if(dd.adr == 6)
+        trace(t, "s = %o\n", ss.val);
+    else if(dd.adr == 7)
+        trace(t, "p = %o\n", ss.val);
+    else
+        trace(t, "mem[%d] = %o\n", dd.adr, ss.val);
 
     BorW = 0;
 $$;
@@ -140,8 +147,8 @@ $$;
 
 void do_CLR()
 {$;
-   INDENT(t);
-    trace(t, "[%s]\n", __PRETTY_FUNCTION__);
+   INDENT(Z);
+    trace(Z, "[%s]\n", __PRETTY_FUNCTION__);
 
     if(BorW == W)
         w_write(dd.adr, 0);
@@ -153,8 +160,15 @@ void do_CLR()
         exit(0);
     }
 
-    INDENT(t);
-    trace(t, "BorW = %d adr: %d = %o\n", BorW, dd.adr, ss.val);
+    INDENT(Z);
+    if(dd.adr < 6)
+        trace(t, "r%d = %o\n", dd.adr, ss.val);
+    else if(dd.adr == 6)
+        trace(t, "s = %o\n", ss.val);
+    else if(dd.adr == 7)
+        trace(t, "p = %o\n", ss.val);
+    else
+        trace(t, "mem[%d] = %o\n", dd.adr, ss.val);
 
     flag_N = flag_V = flag_C = 0;
     flag_Z = 1;
@@ -164,24 +178,24 @@ $$;}
 
 void do_SOB()
 {$;
-    INDENT(t);
-    trace(t, "[%s]\n", __PRETTY_FUNCTION__);
+    INDENT(Z);
+    trace(Z, "[%s]\n", __PRETTY_FUNCTION__);
 
-    INDENT(t);
-    trace(t, "SOB\nR = %hx, Rn = %ho, NN = %hx, pc = %ho\n", r, reg[r], nn, pc);
+    INDENT(Z);
+    trace(t, "\nbefore SOB: R = %hx, Rn = %ho, NN = %hx, pc = %ho\n", r, reg[r], nn, pc);
 
     reg[r] -= 1;
 
     if(reg[r] > 0)
         pc -= 2*nn;
 
-    INDENT(t);
-    trace(t, "SOB\nR = %hx, Rn = %ho, NN = %hx, pc = %ho\n", r, reg[r], nn, pc);
+    INDENT(Z);
+    trace(t, "after  SOB: R = %hx, Rn = %ho, NN = %hx, pc = %ho\n", r, reg[r], nn, pc);
 $$;}
 
 void do_TST()
 {$;
-    INDENT(t);
+    INDENT(Z);
     trace(t, "[%s]\n", __PRETTY_FUNCTION__);
 
     set_NZ(dd.val);
@@ -190,7 +204,7 @@ $$;}
 
 void do_CMP()
 {$;
-    INDENT(t);
+    INDENT(Z);
     trace(t, "[%s]\n", __PRETTY_FUNCTION__);
 
     uint32_t res = ss.val - dd.val;

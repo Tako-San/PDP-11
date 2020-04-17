@@ -11,11 +11,12 @@ enum
 
 #define t 1
 #define T 2
+#define Z 3
 
 int DBG(const char * file, const char * func, int line, int relay, int pr);
 
-#define $ DBG(__FILE__, __PRETTY_FUNCTION__, __LINE__, START, T)
-#define $$ DBG(__FILE__, __PRETTY_FUNCTION__, __LINE__, END, T)
+#define $ DBG(__FILE__, __PRETTY_FUNCTION__, __LINE__, START, Z)
+#define $$ DBG(__FILE__, __PRETTY_FUNCTION__, __LINE__, END, Z)
 #define INDENT(x) DBG(__FILE__, __PRETTY_FUNCTION__, __LINE__, IND, x)
 
 void trace(int pr, const char *  format, ...);

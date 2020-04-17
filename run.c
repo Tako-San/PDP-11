@@ -36,10 +36,10 @@ void run()
 
     while(pc <= MEMSIZE/2)
     {
-        trace(t, "\n\n");
+        trace(Z, "\n");
         Word w = w_read(pc);
 
-        INDENT(t); trace(t, "%06o %06o: \n", pc, w);
+        INDENT(Z); trace(t, "%06o: ", pc);
 
         pc += 2;
 
@@ -51,6 +51,9 @@ void run()
             {
                 if(cmd[i].params & HAS_B)
                     BorW = w >> 15;
+
+                trace(t, "%s%s\t", cmd[i].name, (BorW == B) ? "b" : "");
+
                 if(cmd[i].params & HAS_SS)
                     ss = get_ss(w);
                 if(cmd[i].params & HAS_DD)
@@ -63,8 +66,14 @@ void run()
                     r = (w & 0700) >> 6; // temporary solution
                 if(cmd[i].params & HAS_XX)
                     xx = w & 077;
+                //if(cmd[i].params != NO_PARAMS)
+
+                trace(t, "\t");
                 cmd[i].do_func();
+
+                trace(T, "\n");
                 print_reg();
+
                 break;
             }
             /*else if(i == 3)
@@ -105,8 +114,8 @@ Arg get_mr(Word w)
         case 0: res.adr = r;
                 res.val = reg[r];
 
-                INDENT(T);
-                trace(T, "R%d\n", r);
+                INDENT(Z);
+                trace(t, "R%d ", r);
 
                 break;
         case 1: res.adr = reg[r];
@@ -116,8 +125,8 @@ Arg get_mr(Word w)
                 else if(BorW == B)
                     res.val = b_read(res.adr);
 
-                INDENT(T);
-                trace(T, "(R%d)\n", r);
+                INDENT(Z);
+                trace(t, "(R%d) ", r);
 
                 break;
         case 2: res.adr = reg[r];
@@ -135,13 +144,13 @@ Arg get_mr(Word w)
 
                 if(r == 7)
                 {
-                    INDENT(T);
-                    trace(T, "#%o\n", res.val);
+                    INDENT(Z);
+                    trace(t, "#%o ", res.val);
                 }
                 else
                 {
-                    INDENT(T);
-                    trace(T, "(R%d)+\n", r);
+                    INDENT(Z);
+                    trace(t, "(R%d)+ ", r);
                 }
 
                 break;
@@ -161,13 +170,13 @@ Arg get_mr(Word w)
 
                 if(r == 7)
                 {
-                    INDENT(T);
-                    trace(T, "@#%o\n", res.val);
+                    INDENT(t);
+                    trace(T, "@#%o ", res.val);
                 }
                 else
                 {
-                    INDENT(T);
-                    trace(T, "@(R%d)+\n", r);
+                    INDENT(Z);
+                    trace(t, "@(R%d)+ ", r);
                 }
 
                 break;
@@ -185,12 +194,12 @@ Arg get_mr(Word w)
                     res.val = w_read(res.adr);
                 }
 
-                INDENT(T);
-                trace(T, "-(R%d)\n", r);
+                INDENT(Z);
+                trace(t, "-(R%d) ", r);
 
                 break;
-       default: INDENT(T);
-                trace(T, "Mode %d is not implemented yet\n", m);
+       default: INDENT(Z);
+                trace(t, "Mode %d is not implemented yet ", m);
                 exit(1);
 
     }
@@ -201,7 +210,7 @@ $$;
 }
 
 
-void print_reg()
+void print_halt()
 {
     head(0, __PRETTY_FUNCTION__);
     trace(0, "\n     ");
@@ -218,4 +227,12 @@ void print_reg()
     trace(0, "pc = %06o\n", reg[7]);
 
     head(0, "---------");
+}
+
+
+void print_reg()
+{
+    for(int i = 0; i < 6; i ++)
+        trace(t, "%d:%06o ", i, reg[i]);
+    trace(t, "s:%06o p:%06o\n\n", reg[6], reg[7]);
 }
