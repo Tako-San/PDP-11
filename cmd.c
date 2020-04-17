@@ -83,7 +83,11 @@ void do_ADD()
     flag_C = (res >> (8 * sizeof(Word))) & 1;
 
     INDENT(Z);
-    trace(t, "%d + %d\n", dd.val, ss.val);
+    trace(t, "%d + %d\t", dd.val, ss.val);
+
+    INDENT(Z);
+    print_NZVC();
+    trace(t, "\n");
 $$;
 }
 
@@ -100,7 +104,11 @@ void do_SUB()
     flag_C = (res >> (8 * sizeof(Word))) & 1;
 
     INDENT(Z);
-    trace(T, "%d - %d\n", dd.val, ss.val);
+    trace(T, "%d - %d\t", dd.val, ss.val);
+
+    INDENT(Z);
+    print_NZVC();
+    trace(t, "\n");
 $$;}
 
 void do_HALT()
@@ -133,13 +141,17 @@ void do_MOV()
 
     INDENT(Z);
     if(dd.adr < 6)
-        trace(t, "r%d = %o\n", dd.adr, ss.val);
+        trace(t, "r%d = %o\t", dd.adr, ss.val);
     else if(dd.adr == 6)
-        trace(t, "s = %o\n", ss.val);
+        trace(t, "s = %o\t", ss.val);
     else if(dd.adr == 7)
-        trace(t, "p = %o\n", ss.val);
+        trace(t, "p = %o\t", ss.val);
     else
-        trace(t, "mem[%d] = %o\n", dd.adr, ss.val);
+        trace(t, "mem[%d] = %o\t", dd.adr, ss.val);
+
+    INDENT(Z);
+    print_NZVC();
+    trace(t, "\n");
 
     BorW = 0;
 $$;
@@ -162,16 +174,20 @@ void do_CLR()
 
     INDENT(Z);
     if(dd.adr < 6)
-        trace(t, "r%d = %o\n", dd.adr, ss.val);
+        trace(t, "r%d = %o\t", dd.adr, ss.val);
     else if(dd.adr == 6)
-        trace(t, "s = %o\n", ss.val);
+        trace(t, "s = %o\t", ss.val);
     else if(dd.adr == 7)
-        trace(t, "p = %o\n", ss.val);
+        trace(t, "p = %o\t", ss.val);
     else
-        trace(t, "mem[%d] = %o\n", dd.adr, ss.val);
+        trace(t, "mem[%d] = %o\t", dd.adr, ss.val);
 
     flag_N = flag_V = flag_C = 0;
     flag_Z = 1;
+
+    INDENT(Z);
+    print_NZVC();
+    trace(t, "\n");
 
     BorW = 0;
 $$;}
@@ -180,6 +196,9 @@ void do_SOB()
 {$;
     INDENT(Z);
     trace(Z, "[%s]\n", __PRETTY_FUNCTION__);
+
+    INDENT(Z);
+    print_NZVC();
 
     INDENT(Z);
     trace(t, "\nbefore SOB: R = %hx, Rn = %ho, NN = %hx, pc = %ho\n", r, reg[r], nn, pc);
@@ -191,6 +210,7 @@ void do_SOB()
 
     INDENT(Z);
     trace(t, "after  SOB: R = %hx, Rn = %ho, NN = %hx, pc = %ho\n", r, reg[r], nn, pc);
+
 $$;}
 
 void do_TST()
@@ -200,6 +220,9 @@ void do_TST()
 
     set_NZ(dd.val);
     flag_V = flag_C = 0;
+
+    INDENT(Z);
+    print_NZVC();
 $$;}
 
 void do_CMP()
@@ -212,12 +235,17 @@ void do_CMP()
     set_NZ(res);
     flag_C = (res >> (8 * sizeof(Word))) & 1;
 
+    INDENT(Z);
+    print_NZVC();
+
 $$;}
 
 
 void do_BR()
 {$;
     pc += 2*xx;
+    INDENT(Z);
+    print_NZVC();
 $$;}
 
 void do_BEQ()
@@ -329,11 +357,15 @@ $$;
 }
 
 
-
 void set_NZ(Word num)
 {$;
     flag_Z = (num != 0);
 
     int move = (BorW == W)? 15 : 7;
     flag_N = (num >> move) & 1;
+$$;}
+
+void print_NZVC()
+{$;
+    trace(t, "NZVC:%d%d%d%d", flag_N, flag_Z, flag_V, flag_C);
 $$;}
