@@ -71,7 +71,7 @@ void run()
                 trace(t, "\t");
                 cmd[i].do_func();
 
-                trace(T, "\n");
+                trace(t, "\n");
                 print_reg();
 
                 break;
@@ -171,7 +171,7 @@ Arg get_mr(Word w)
                 if(r == 7)
                 {
                     INDENT(t);
-                    trace(T, "@#%o ", res.val);
+                    trace(t, "@#%o ", res.val);
                 }
                 else
                 {
@@ -233,6 +233,6 @@ void print_halt()
 void print_reg()
 {
     for(int i = 0; i < 6; i ++)
-        trace(t, "%d:%06o ", i, reg[i]);
-    trace(t, "s:%06o p:%06o\n\n", reg[6], reg[7]);
+        trace(T, "%d:%06o ", i, reg[i]);
+    trace(T, "s:%06o p:%06o\n\n", reg[6], reg[7]);
 }
