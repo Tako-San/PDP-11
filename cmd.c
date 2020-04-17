@@ -371,5 +371,5 @@ void print_NZVC()
     trace(t, "%c", flag_Z ? 'Z' : '-');
     trace(t, "%c", flag_V ? 'V' : '-');
     trace(t, "%c", flag_C ? 'C' : '-');
-    trace(t, ":%d%d%d%d", flag_N, flag_Z, flag_V, flag_C);
+    //trace(t, ":%d%d%d%d", flag_N, flag_Z, flag_V, flag_C);
 $$;}
