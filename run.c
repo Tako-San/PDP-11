@@ -16,10 +16,10 @@ extern Word reg[8];
 // Global variables which used in do_funcs
 Arg ss = {};
 Arg dd = {};
-Word xx = 0;
-Word nn = 0;
-Word n = 0;
-Word r = 0;
+sByte xx = 0;
+Byte nn = 0;
+Byte n = 0;
+Byte r = 0;
 Byte BorW = 0;
 
 enum
@@ -65,7 +65,7 @@ void run()
                 if(cmd[i].params & HAS_R)
                     r = (w & 0700) >> 6; // temporary solution
                 if(cmd[i].params & HAS_XX)
-                    xx = w & 077;
+                    xx = w & 0377;
                 //if(cmd[i].params != NO_PARAMS)
 
                 trace(t, "\t");

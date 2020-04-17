@@ -10,6 +10,7 @@
 #include <stdlib.h>
 
 typedef uint8_t Byte;
+typedef int8_t sByte;
 typedef uint16_t Word;
 typedef Word Adr;
 

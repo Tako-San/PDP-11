@@ -7,7 +7,7 @@ extern int tr;
 // Global variables which used in do_funcs
 extern Arg ss;
 extern Arg dd;
-extern Word xx;
+extern sByte xx;
 extern Word nn;
 extern Word n;
 extern Word r;
@@ -33,42 +33,42 @@ extern Word reg[8];
 
 Cmd cmd[] =
         {
-                {0xFFFF, 0000000, NO_PARAMS, "HALT", do_HALT},
-                {0xFFFF, 0000240, NO_PARAMS, "NOP", do_NOP},
+                {0177777, 0000000, NO_PARAMS, "HALT", do_HALT},
+                {0177777, 0000240, NO_PARAMS, "NOP", do_NOP},
 
-                {0xFFFF, 0000257, NO_PARAMS, "CCC", do_CCC},
-                {0xFFFF, 0000241, NO_PARAMS, "CLC", do_CLC},
-                {0xFFFF, 0000250, NO_PARAMS, "CLN", do_CLN},
-                {0xFFFF, 0000242, NO_PARAMS, "CLV", do_CLV},
-                {0xFFFF, 0000244, NO_PARAMS, "CLZ", do_CLZ},
+                {0177777, 0000257, NO_PARAMS, "CCC", do_CCC},
+                {0177777, 0000241, NO_PARAMS, "CLC", do_CLC},
+                {0177777, 0000250, NO_PARAMS, "CLN", do_CLN},
+                {0177777, 0000242, NO_PARAMS, "CLV", do_CLV},
+                {0177777, 0000244, NO_PARAMS, "CLZ", do_CLZ},
 
-                {0xFFFF, 0000277, NO_PARAMS, "CCC", do_SCC},
-                {0xFFFF, 0000261, NO_PARAMS, "CLC", do_SLC},
-                {0xFFFF, 0000270, NO_PARAMS, "CLN", do_SLN},
-                {0xFFFF, 0000262, NO_PARAMS, "CLV", do_SLV},
-                {0xFFFF, 0000264, NO_PARAMS, "CLZ", do_SLZ},
+                {0177777, 0000277, NO_PARAMS, "CCC", do_SCC},
+                {0177777, 0000261, NO_PARAMS, "CLC", do_SLC},
+                {0177777, 0000270, NO_PARAMS, "CLN", do_SLN},
+                {0177777, 0000262, NO_PARAMS, "CLV", do_SLV},
+                {0177777, 0000264, NO_PARAMS, "CLZ", do_SLZ},
 
-                {0xFFC0, 0000400, HAS_XX, "BR", do_BR},
-                {0xFFC0, 0001400, HAS_XX, "BEQ", do_BEQ},
-                {0xFFC0, 0001000, HAS_XX, "BNE", do_BNE},
-                {0xFFC0, 0100400, HAS_XX, "BMI", do_BMI},
-                {0xFFC0, 0100000, HAS_XX, "BPL", do_BPL},
-                {0xFFC0, 0002400, HAS_XX, "BLT", do_BLT},
-                {0xFFC0, 0002000, HAS_XX, "BGE", do_BGE},
-                {0xFFC0, 0003400, HAS_XX, "BLE", do_BLE},
+                {0177400, 0000400, HAS_XX, "BR", do_BR},
+                {0177400, 0001400, HAS_XX, "BEQ", do_BEQ},
+                {0177400, 0001000, HAS_XX, "BNE", do_BNE},
+                {0177400, 0100400, HAS_XX, "BMI", do_BMI},
+                {0177400, 0100000, HAS_XX, "BPL", do_BPL},
+                {0177400, 0002400, HAS_XX, "BLT", do_BLT},
+                {0177400, 0002000, HAS_XX, "BGE", do_BGE},
+                {0177400, 0003400, HAS_XX, "BLE", do_BLE},
 
-                {0xFE00, 0077000, HAS_R | HAS_NN, "SOB", do_SOB},
+                {0177000, 0077000, HAS_R | HAS_NN, "SOB", do_SOB},
 
-                {0xF000, 0060000, HAS_SS | HAS_DD, "ADD", do_ADD},
-                {0xF000, 0160000, HAS_SS | HAS_DD, "SUB", do_SUB},
+                {0170000, 0060000, HAS_SS | HAS_DD, "ADD", do_ADD},
+                {0170000, 0160000, HAS_SS | HAS_DD, "SUB", do_SUB},
 
-                {0x7FC0, 0005000, HAS_B | HAS_DD, "CLR", do_CLR},
-                {0x7FC0, 0005700, HAS_B | HAS_DD, "TST", do_TST},
+                {0077700, 0005000, HAS_B | HAS_DD, "CLR", do_CLR},
+                {0077700, 0005700, HAS_B | HAS_DD, "TST", do_TST},
 
-                {0x7000, 0010000, HAS_B | HAS_SS | HAS_DD, "MOV", do_MOV},
-                {0x7000, 0020000, HAS_B | HAS_SS | HAS_DD, "CMP", do_CMP},
+                {0070000, 0010000, HAS_B | HAS_SS | HAS_DD, "MOV", do_MOV},
+                {0070000, 0020000, HAS_B | HAS_SS | HAS_DD, "CMP", do_CMP},
 
-                {0x0000, 0000000, NO_PARAMS, "unknown cmd", do_unknown},
+                {0000000, 0000000, NO_PARAMS, "unknown cmd", do_unknown},
         };
 
 void do_ADD()
@@ -243,8 +243,9 @@ $$;}
 
 void do_BR()
 {$;
-    pc += 2*xx;
+    pc = pc + 2*xx;
     INDENT(Z);
+    trace(t, "%6ho ", pc);
     print_NZVC();
 $$;}
 
