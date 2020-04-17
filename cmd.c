@@ -359,7 +359,7 @@ $$;
 
 void set_NZ(Word num)
 {$;
-    flag_Z = (num != 0);
+    flag_Z = (num == 0);
 
     int move = (BorW == W)? 15 : 7;
     flag_N = (num >> move) & 1;
@@ -367,5 +367,9 @@ $$;}
 
 void print_NZVC()
 {$;
-    trace(t, "NZVC:%d%d%d%d", flag_N, flag_Z, flag_V, flag_C);
+    trace(t, "%c", flag_N ? 'N' : '-');
+    trace(t, "%c", flag_Z ? 'Z' : '-');
+    trace(t, "%c", flag_V ? 'V' : '-');
+    trace(t, "%c", flag_C ? 'C' : '-');
+    trace(t, ":%d%d%d%d", flag_N, flag_Z, flag_V, flag_C);
 $$;}
