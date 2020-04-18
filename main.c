@@ -21,7 +21,7 @@ int main(int argc, char * argv[])
     else if(argc == 2)
     {
         load_file(argv[1]);
-        mem_dump(0100, 5);
+        mem_dump(0200, 5);
         mem_dump(01000, 9);
         run();
     }
@@ -29,7 +29,7 @@ int main(int argc, char * argv[])
     {
         tr = t;
         load_file(argv[2]);
-        mem_dump(0100, 5);
+        mem_dump(0200, 5);
         mem_dump(01000, 9);
         run();
     }
@@ -37,7 +37,7 @@ int main(int argc, char * argv[])
     {
         tr = T;
         load_file(argv[2]);
-        mem_dump(0100, 5);
+        mem_dump(0200, 5);
         mem_dump(01000, 9);
         run();
     }
@@ -45,7 +45,7 @@ int main(int argc, char * argv[])
     {
         tr = Z;
         load_file(argv[2]);
-        mem_dump(0100, 5);
+        mem_dump(0200, 5);
         mem_dump(01000, 9);
         run();
     }

@@ -14,8 +14,8 @@ extern Word reg[8];
 #define pc reg[7]
 
 // Global variables which used in do_funcs
-Arg ss = {};
-Arg dd = {};
+Arg ss = {0, 0};
+Arg dd = {0, 0};
 sByte xx = 0;
 Byte nn = 0;
 Byte n = 0;
@@ -69,21 +69,21 @@ void run()
                 //if(cmd[i].params != NO_PARAMS)
 
                 trace(t, "\t");
+                //print_NZVC();
+                //trace(t, "\t");
+
                 cmd[i].do_func();
 
+                BorW = 0;
+                //trace(t, "\t");
+
                 trace(t, "\n");
+                print_NZVC();
                 print_reg();
 
                 break;
             }
-            /*else if(i == 3)
-            {
-                cmd[i].do_func();
-                break;
-            }*/
         }
-
-
     }
 $$;}
 
@@ -159,11 +159,13 @@ Arg get_mr(Word w)
                 if(BorW == W)
                 {
                     res.val = w_read(res.adr);
+                    //trace(0, "\n%o %o\n", res.adr, res.val);
                     reg[r] += 2;
                 }
                 else if(BorW == B)
                 {
                     res.val = b_read(res.adr);
+                    //trace(0, "\n%o %o\n", res.adr, res.val);
                     reg[r] += 2;
                     //reg[r] += (res.adr < 6)? 1 : 2;
                 }
@@ -226,7 +228,7 @@ void print_halt()
     trace(0, "sp = %06o ", reg[6]);
     trace(0, "pc = %06o\n", reg[7]);
 
-    head(0, "---------");
+    head(0, "----------");
 }
 
 

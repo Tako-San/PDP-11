@@ -5,9 +5,13 @@
 Byte mem[MEMSIZE] = {};
 Word reg[8] = {};
 
+#define ostat 0177564
+#define odata 0177566
+
+
 void b_write(Adr adr, Byte b)
-{//$;
-    //assert(adr >= 0);
+{$;
+    assert(adr >= 0);
 
     if(adr < 8)
     {
@@ -18,15 +22,21 @@ void b_write(Adr adr, Byte b)
 
         reg[adr] |= (Word)b;
     }
+    else if(adr == odata)
+    {
+        mem[odata] = b;
+        trace(0, "%c", mem[odata]);
+        mem[ostat] = 0200;
+    }
     else
         mem[adr] = b;
 
-//$$;
+$$;
 }
 
 Byte b_read(Adr adr)
-{//$;
-    //assert(adr >= 0);
+{$;
+    assert(adr >= 0);
 
     Byte b = 0;
 
@@ -34,28 +44,35 @@ Byte b_read(Adr adr)
         b = (Byte)reg[adr];
     else
         b = mem[adr];
-//$$;
+$$;
     return b;
 }
 
 void w_write(Adr adr, Word w)
-{//$;
-    //assert(adr >= 0);
+{$;
+    assert(adr >= 0);
 
     if(adr < 8)
         reg[adr] = w;
+    else if(adr == odata)
+    {
+        mem[adr + 1] = (Byte)(w >> 8);
+        mem[adr] = (Byte)w;
+        trace(0, "%c", mem[odata]);
+        mem[ostat] = 0200;
+    }
     else
     {
         assert(!(adr & 1));
         mem[adr + 1] = (Byte)(w >> 8);
         mem[adr] = (Byte)w;
     }
-//$$;
+$$;
 }
 
 Word w_read(Adr adr)
-{//$;
-    //assert(adr >= 0);
+{$;
+    assert(adr >= 0);
 
     Word w = 0;
 
@@ -67,12 +84,12 @@ Word w_read(Adr adr)
         w = ((Word)mem[adr + 1]) << 8;
         w |= (Word)mem[adr];
     }
-//$$;
+$$;
     return w;
 }
 
 void load_file(const char * filename)
-{//$;
+{$;
     FILE * PRGRM = NULL;
     PRGRM = fopen(filename, "rb");
     if (PRGRM == NULL)
@@ -89,17 +106,17 @@ void load_file(const char * filename)
 
     while(fscanf(PRGRM, "%hx%hx", &adr, &n) == 2)
     {
-        //printf("\n");
         for (int i = 0; i < n; i++)
         {
             fscanf(PRGRM, "%hhx", &cur);
             b_write(adr + i, cur);
         }
-        //printf("\n");
     }
 
     fclose(PRGRM);
-//$$;
+
+    mem[ostat] = 0200;
+$$;
 }
 
 void mem_dump(Adr start, Word n)

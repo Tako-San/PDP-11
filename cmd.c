@@ -85,8 +85,8 @@ void do_ADD()
     INDENT(Z);
     trace(t, "%d + %d\t", dd.val, ss.val);
 
-    INDENT(Z);
-    print_NZVC();
+    //INDENT(Z);
+    //print_NZVC();
     trace(t, "\n");
 $$;
 }
@@ -106,8 +106,8 @@ void do_SUB()
     INDENT(Z);
     trace(T, "%d - %d\t", dd.val, ss.val);
 
-    INDENT(Z);
-    print_NZVC();
+    //INDENT(Z);
+    //print_NZVC();
     trace(t, "\n");
 $$;}
 
@@ -149,8 +149,8 @@ void do_MOV()
     else
         trace(t, "mem[%d] = %o\t", dd.adr, ss.val);
 
-    INDENT(Z);
-    print_NZVC();
+    //INDENT(Z);
+    ///print_NZVC();
     trace(t, "\n");
 
     BorW = 0;
@@ -185,8 +185,8 @@ void do_CLR()
     flag_N = flag_V = flag_C = 0;
     flag_Z = 1;
 
-    INDENT(Z);
-    print_NZVC();
+    //INDENT(Z);
+    //print_NZVC();
     trace(t, "\n");
 
     BorW = 0;
@@ -197,8 +197,8 @@ void do_SOB()
     INDENT(Z);
     trace(Z, "[%s]\n", __PRETTY_FUNCTION__);
 
-    INDENT(Z);
-    print_NZVC();
+    //INDENT(Z);
+    //print_NZVC();
 
     INDENT(Z);
     trace(t, "\nbefore SOB: R = %hx, Rn = %ho, NN = %hx, pc = %ho\n", r, reg[r], nn, pc);
@@ -221,8 +221,10 @@ void do_TST()
     set_NZ(dd.val);
     flag_V = flag_C = 0;
 
-    INDENT(Z);
-    print_NZVC();
+    BorW = W;
+
+    //INDENT(Z);
+    //print_NZVC();
 $$;}
 
 void do_CMP()
@@ -235,8 +237,8 @@ void do_CMP()
     set_NZ(res);
     flag_C = (res >> (8 * sizeof(Word))) & 1;
 
-    INDENT(Z);
-    print_NZVC();
+    //INDENT(Z);
+    //print_NZVC();
 
 $$;}
 
@@ -246,30 +248,30 @@ void do_BR()
     pc = pc + 2*xx;
     INDENT(Z);
     trace(t, "%6ho ", pc);
-    print_NZVC();
+    //print_NZVC();
 $$;}
 
 void do_BEQ()
 {$;
-    if(flag_Z == 1)
+    if(flag_Z)
         do_BR();
 $$;}
 
 void do_BNE()
 {$;
-    if(flag_Z == 0)
+    if(!flag_Z)
         do_BR();
 $$;}
 
 void do_BMI()
 {$;
-    if(flag_N == 1)
+    if(flag_N)
         do_BR();
 $$;}
 
 void do_BPL()
 {$;
-    if(flag_N == 0)
+    if(!flag_N)
         do_BR();
 $$;}
 
@@ -360,10 +362,18 @@ $$;
 
 void set_NZ(Word num)
 {$;
-    flag_Z = (num == 0);
+    flag_Z = (num == 0) ? 1 : 0;
 
-    int move = (BorW == W)? 15 : 7;
-    flag_N = (num >> move) & 1;
+    /*int move = (BorW == W) ? 15 : 7;
+    flag_N = (num >> move) & 1;*/
+    if(BorW == W)
+    {
+        flag_N = (num >> 15) & 1;
+    }
+    else
+    {
+        flag_N = (num >> 7) & 1;
+    }
 $$;}
 
 void print_NZVC()
@@ -372,5 +382,6 @@ void print_NZVC()
     trace(t, "%c", flag_Z ? 'Z' : '-');
     trace(t, "%c", flag_V ? 'V' : '-');
     trace(t, "%c", flag_C ? 'C' : '-');
+    trace(t, " ");
     //trace(t, ":%d%d%d%d", flag_N, flag_Z, flag_V, flag_C);
 $$;}
