@@ -107,6 +107,8 @@ Arg get_mr(Word w)
     int r = w & 7;
     int m = (w >> 3) & 7;
 
+    Word x = 0;
+
     Arg res = {};
 
     switch(m)
@@ -118,6 +120,7 @@ Arg get_mr(Word w)
                 trace(t, "R%d ", r);
 
                 break;
+
         case 1: res.adr = reg[r];
 
                 if(BorW == W)
@@ -129,6 +132,7 @@ Arg get_mr(Word w)
                 trace(t, "(R%d) ", r);
 
                 break;
+
         case 2: res.adr = reg[r];
 
                 if(BorW == W)
@@ -154,6 +158,7 @@ Arg get_mr(Word w)
                 }
 
                 break;
+
         case 3: res.adr = w_read(reg[r]);
 
                 if(BorW == W)
@@ -182,8 +187,8 @@ Arg get_mr(Word w)
                 }
 
                 break;
-        case 4:
-                if(BorW == W)
+
+        case 4: if(BorW == W)
                 {
                     reg[r] -= 2;
                     res.adr = reg[r];
@@ -200,6 +205,17 @@ Arg get_mr(Word w)
                 trace(t, "-(R%d) ", r);
 
                 break;
+
+        case 6: x = w_read(pc);
+                pc += 2;
+                res.adr = x + reg[n];
+                res.val = w_read(res.adr);
+
+                INDENT(Z);
+                trace(t, "%d(R%d) ", x, r);
+
+                break;
+
        default: INDENT(Z);
                 trace(t, "Mode %d is not implemented yet ", m);
                 exit(1);
