@@ -223,8 +223,8 @@ void do_CMP()
     if(BorW == W)
         flag_C = (res >> (8 * sizeof(Word))) & 1;
     else
-        flag_C = (res >> (8 * sizeof(Byte)) & 1;
-        
+        flag_C = (res >> (8 * sizeof(Byte))) & 1;
+
     //INDENT(Z);
     //print_NZVC();
 
