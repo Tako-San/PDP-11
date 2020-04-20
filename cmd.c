@@ -219,8 +219,12 @@ void do_CMP()
     uint32_t res = ss.val - dd.val;
 
     set_NZ(res);
-    flag_C = (res >> (8 * sizeof(Word))) & 1;
 
+    if(BorW == W)
+        flag_C = (res >> (8 * sizeof(Word))) & 1;
+    else
+        flag_C = (res >> (8 * sizeof(Byte)) & 1;
+        
     //INDENT(Z);
     //print_NZVC();
 
