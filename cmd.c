@@ -58,7 +58,7 @@ Cmd cmd[] =
                 {0177400, 0003400, HAS_XX, "BLE", do_BLE},
 
                 {0177000, 0077000, HAS_R | HAS_NN, "SOB", do_SOB},
-
+                
                 {0170000, 0060000, HAS_SS | HAS_DD, "ADD", do_ADD},
                 {0170000, 0160000, HAS_SS | HAS_DD, "SUB", do_SUB},
 
@@ -139,15 +139,7 @@ void do_MOV()
     set_NZ(ss.val);
     flag_V = 0;
 
-    INDENT(Z);
-    if(dd.adr < 6)
-        trace(t, "r%d = %o\t", dd.adr, ss.val);
-    else if(dd.adr == 6)
-        trace(t, "s = %o\t", ss.val);
-    else if(dd.adr == 7)
-        trace(t, "p = %o\t", ss.val);
-    else
-        trace(t, "mem[%d] = %o\t", dd.adr, ss.val);
+    print_new_val();
 
     //INDENT(Z);
     ///print_NZVC();
@@ -172,15 +164,7 @@ void do_CLR()
         exit(0);
     }
 
-    INDENT(Z);
-    if(dd.adr < 6)
-        trace(t, "r%d = %o\t", dd.adr, ss.val);
-    else if(dd.adr == 6)
-        trace(t, "s = %o\t", ss.val);
-    else if(dd.adr == 7)
-        trace(t, "p = %o\t", ss.val);
-    else
-        trace(t, "mem[%d] = %o\t", dd.adr, ss.val);
+    print_new_val();
 
     flag_N = flag_V = flag_C = 0;
     flag_Z = 1;
@@ -385,3 +369,17 @@ void print_NZVC()
     trace(t, " ");
     //trace(t, ":%d%d%d%d", flag_N, flag_Z, flag_V, flag_C);
 $$;}
+
+void print_new_val()
+{
+    INDENT(Z);
+    if(dd.adr < 6)
+        trace(t, "r%d = %o\t", dd.adr, ss.val);
+    else if(dd.adr == 6)
+        trace(t, "s = %o\t", ss.val);
+    else if(dd.adr == 7)
+        trace(t, "p = %o\t", ss.val);
+    else
+        trace(t, "mem[%d] = %o\t", dd.adr, ss.val);
+
+}

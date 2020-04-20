@@ -20,6 +20,7 @@ void print_halt();
 
 void set_NZ(Word num);
 void print_NZVC();
+void print_new_val();
 
 void do_HALT();
 void do_CLR();

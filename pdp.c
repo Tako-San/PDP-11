@@ -11,8 +11,6 @@ Word reg[8] = {};
 
 void b_write(Adr adr, Byte b)
 {$;
-    assert(adr >= 0);
-
     if(adr < 8)
     {
         if(b & 0x80)
@@ -30,14 +28,11 @@ void b_write(Adr adr, Byte b)
     }
     else
         mem[adr] = b;
-
 $$;
 }
 
 Byte b_read(Adr adr)
 {$;
-    assert(adr >= 0);
-
     Byte b = 0;
 
     if(adr < 8)
@@ -50,8 +45,6 @@ $$;
 
 void w_write(Adr adr, Word w)
 {$;
-    assert(adr >= 0);
-
     if(adr < 8)
         reg[adr] = w;
     else if(adr == odata)
@@ -72,8 +65,6 @@ $$;
 
 Word w_read(Adr adr)
 {$;
-    assert(adr >= 0);
-
     Word w = 0;
 
     if(adr < 8)
