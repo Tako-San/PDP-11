@@ -1,6 +1,7 @@
 #include "headers/pdp.h"
 #include "headers/cmd.h"
 #include "headers/dbg.h"
+#include "headers/tst.h"
 
 #include <stdio.h>
 #include <stdlib.h>
