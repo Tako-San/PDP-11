@@ -178,7 +178,7 @@ Arg get_mr(Word w)
                 if(r == 7)
                 {
                     INDENT(t);
-                    trace(t, "@#%o ", res.val);
+                    trace(t, "@#%o ", res.adr);
                 }
                 else
                 {
