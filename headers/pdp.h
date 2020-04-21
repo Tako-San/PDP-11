@@ -9,6 +9,9 @@
 #include <stdarg.h>
 #include <stdlib.h>
 
+#define ostat 0177564
+#define odata 0177566
+
 typedef uint8_t Byte;
 typedef int8_t sByte;
 typedef uint16_t Word;

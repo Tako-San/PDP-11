@@ -1,7 +1,6 @@
 #include "headers/pdp.h"
 #include "headers/cmd.h"
 #include "headers/dbg.h"
-#include "headers/tst.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,6 +11,7 @@ extern Byte mem[MEMSIZE];
 
 extern Word reg[8];
 #define pc reg[7]
+#define sp reg[6]
 
 // Global variables which used in do_funcs
 Arg ss = {0, 0};
@@ -33,6 +33,8 @@ extern int tr;
 void run()
 {$;
     pc = 01000;
+    sp = 01000;
+    w_write(ostat, 0200);
 
     while(pc <= MEMSIZE/2)
     {
@@ -43,8 +45,6 @@ void run()
 
         pc += 2;
 
-        //print_reg();
-
         for(size_t i = 0; cmd[i].opcode != 0x0001; i++)
         {
             if((w & cmd[i].mask) == cmd[i].opcode)
@@ -54,6 +54,11 @@ void run()
 
                 trace(t, "%s%s\t", cmd[i].name, (BorW == B) ? "b" : "");
 
+                if(cmd[i].params & HAS_R)
+                {
+                    r = (w & 0700) >> 6; // temporary solution
+                    trace(t, "R%d ", r);
+                }
                 if(cmd[i].params & HAS_SS)
                     ss = get_ss(w);
                 if(cmd[i].params & HAS_DD)
@@ -62,8 +67,6 @@ void run()
                     trace(0, "\ntodo: get_n(w)\n");//n = get_n(w);
                 if(cmd[i].params & HAS_NN)
                     nn = w & 077;
-                if(cmd[i].params & HAS_R)
-                    r = (w & 0700) >> 6; // temporary solution
                 if(cmd[i].params & HAS_XX)
                     xx = w & 0377;
                 //if(cmd[i].params != NO_PARAMS)
@@ -149,7 +152,7 @@ Arg get_mr(Word w)
                 if(r == 7)
                 {
                     INDENT(Z);
-                    trace(t, "#%o ", res.val);
+                    trace(t, "#%06o ", res.val);
                 }
                 else
                 {
@@ -178,7 +181,7 @@ Arg get_mr(Word w)
                 if(r == 7)
                 {
                     INDENT(t);
-                    trace(t, "@#%o ", res.adr);
+                    trace(t, "@#%06o ", res.adr);
                 }
                 else
                 {
@@ -208,12 +211,25 @@ Arg get_mr(Word w)
 
         case 6: x = w_read(pc);
                 pc += 2;
-                res.adr = x + reg[n];
-                res.val = w_read(res.adr);
+                res.adr = x + reg[r];
 
-                INDENT(Z);
-                trace(t, "%d(R%d) ", x, r);
+                if(BorW == W)
+                    res.val = w_read(res.adr);
+                else
+                    res.val = b_read(res.adr);
 
+                trace(t, "adr: %06o, val: %d ", res.adr, res.val);
+
+                /*if(r == 7)
+                {
+                    INDENT(Z);
+                    trace(t, "pc ");
+                }
+                else
+                {
+                    INDENT(Z);
+                    trace(t, "%d(R%d) ", x, r);
+                }*/
                 break;
 
        default: INDENT(Z);

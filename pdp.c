@@ -5,9 +5,6 @@
 Byte mem[MEMSIZE] = {};
 Word reg[8] = {};
 
-#define ostat 0177564
-#define odata 0177566
-
 
 void b_write(Adr adr, Byte b)
 {$;
@@ -24,7 +21,7 @@ void b_write(Adr adr, Byte b)
     {
         mem[odata] = b;
         trace(0, "%c", mem[odata]);
-        mem[ostat] = 0200;
+        mem[ostat] |= 0200;
     }
     else
         mem[adr] = b;
@@ -52,7 +49,7 @@ void w_write(Adr adr, Word w)
         mem[adr + 1] = (Byte)(w >> 8);
         mem[adr] = (Byte)w;
         trace(0, "%c", mem[odata]);
-        mem[ostat] = 0200;
+        mem[ostat] |= 0200;
     }
     else
     {

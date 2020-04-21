@@ -22,12 +22,18 @@ void set_NZ(Word num);
 void print_NZVC();
 void print_new_val();
 
+void push(Word val);
+Word pop();
+
 void do_HALT();
 void do_CLR();
 void do_MOV();
 void do_ADD();
 void do_SUB();
 void do_SOB();
+
+void do_JSR();
+void do_RTS();
 
 void do_TST();
 void do_CMP();

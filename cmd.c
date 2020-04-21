@@ -1,5 +1,6 @@
 #include "headers/cmd.h"
 #include "headers/dbg.h"
+#include "headers/pdp.h"
 #include <stdlib.h>
 
 extern int tr;
@@ -30,6 +31,9 @@ extern Byte mem[MEMSIZE];
 
 extern Word reg[8];
 #define pc reg[7]
+#define sp reg[6]
+#define pc_num 7;
+#define sp_num 6;
 
 Cmd cmd[] =
         {
@@ -48,6 +52,8 @@ Cmd cmd[] =
                 {0177777, 0000262, NO_PARAMS, "CLV", do_SLV},
                 {0177777, 0000264, NO_PARAMS, "CLZ", do_SLZ},
 
+                {0177770, 0000200, NO_PARAMS, "RTS", do_RTS},
+
                 {0177400, 0000400, HAS_XX, "BR", do_BR},
                 {0177400, 0001400, HAS_XX, "BEQ", do_BEQ},
                 {0177400, 0001000, HAS_XX, "BNE", do_BNE},
@@ -58,6 +64,7 @@ Cmd cmd[] =
                 {0177400, 0003400, HAS_XX, "BLE", do_BLE},
 
                 {0177000, 0077000, HAS_R | HAS_NN, "SOB", do_SOB},
+                {0177000, 0004000, HAS_R | HAS_DD, "JSR", do_JSR},
                 
                 {0170000, 0060000, HAS_SS | HAS_DD, "ADD", do_ADD},
                 {0170000, 0160000, HAS_SS | HAS_DD, "SUB", do_SUB},
@@ -308,7 +315,6 @@ void do_CLZ()
 $$;}
 
 
-
 void do_SCC()
 {$;
     flag_N = flag_Z = flag_V = flag_C = 1;
@@ -338,13 +344,41 @@ void do_NOP()
 {$;$$;}
 
 
-
 void do_unknown()
 {$;
     INDENT(t);
     trace(t, "[%s]\n", __PRETTY_FUNCTION__);
 $$;
     exit(1);
+}
+
+
+void do_JSR()
+{
+    Word tmp = dd.adr;
+    push(w_read(r));
+    w_write(r, pc);
+    pc = tmp;
+}
+
+void do_RTS()
+{
+    pc = reg[r];
+    reg[r] = pop();
+}
+
+
+void push(Word val)
+{
+    sp -= 2;
+    w_write(sp, val);
+}
+
+Word pop()
+{
+    Word tmp = w_read(sp);
+    sp += 2;
+    return tmp;
 }
 
 
@@ -384,6 +418,6 @@ void print_new_val()
     else if(dd.adr == 7)
         trace(t, "p = %o\t", ss.val);
     else
-        trace(t, "mem[%d] = %o\t", dd.adr, ss.val);
+        trace(t, "mem[%06o] = %o\t", dd.adr, ss.val);
 
 }
