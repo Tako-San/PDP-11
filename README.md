@@ -1,8 +1,8 @@
-# PDP-11
-PDP-11 emulator
+# PDP-11 emulator
+PDP-11 bytecode interpreter.
 
-Реализации команд - cmd.c
-Исполнение и моды - run.c
-Трасс-ка и дебаг - dbg.c
-Работа с памятью - pdp.c
-Мои тесты - tst.c
+ * ```cmd.c``` - instructions realisation.
+ * ```run.c``` - Running and modes.
+ * ```dbg.c``` - Debug.
+ * ```pdp.c``` - Work with memory.
+ * ```tst.c``` - Tests.
