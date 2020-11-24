@@ -1,5 +1,5 @@
 # PDP-11 emulator
-PDP-11 bytecode interpreter.
+PDP-11 bytecode interpreter. First study year final project.
 
  * ```cmd.c``` - instructions realisation.
  * ```run.c``` - Running and modes.
